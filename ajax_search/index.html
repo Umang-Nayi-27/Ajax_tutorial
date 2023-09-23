@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Data</title>
+</head>
+<body>
+    <h1>Search Data</h1>
+    <input type="text" id="searchInput" placeholder="Search by name...">
+    <div id="searchResults"></div>
+
+    <script>
+        // Function to make an AJAX request when the user types in the search input
+        document.getElementById("searchInput").onkeyup = function () {
+            var searchValue = this.value.trim();
+    
+            // Check if the search query is empty
+            if (searchValue === '') {
+                clearSearchResults();
+                return;
+            }
+    
+            // Create a new XMLHttpRequest object
+            var xhr = new XMLHttpRequest();
+    
+            // Define the request URL, passing the search value as a query parameter
+            xhr.open("GET", "search_data.php?q=" + encodeURIComponent(searchValue), true);
+    
+            // Set the request header to accept JSON
+            xhr.setRequestHeader("Accept", "application/json");
+    
+            // Define the callback function to handle the response
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    var response = JSON.parse(xhr.responseText);
+                    displaySearchResults(response);
+                } else {
+                    // Handle errors here
+                }
+            };
+    
+            // Send the GET request
+            xhr.send();
+        };
+    
+        // Function to clear the search results when the search input is empty
+        function clearSearchResults() {
+            var searchResultsDiv = document.getElementById("searchResults");
+            searchResultsDiv.innerHTML = "";
+        }
+    
+        // Function to display search results in the searchResults div
+        function displaySearchResults(response) {
+            var searchResultsDiv = document.getElementById("searchResults");
+            searchResultsDiv.innerHTML = "";
+    
+            if (response.success) {
+                var results = response.data;
+    
+                if (results.length > 0) {
+                    for (var i = 0; i < results.length; i++) {
+                        var result = results[i];
+                        var resultElement = document.createElement("p");
+                        resultElement.textContent = "Full Name: " + result.fname;
+                        searchResultsDiv.appendChild(resultElement);
+                    }
+                } else {
+                    var noResultsElement = document.createElement("p");
+                    noResultsElement.textContent = "No results found.";
+                    searchResultsDiv.appendChild(noResultsElement);
+                }
+            } else {
+                // Handle errors here
+            }
+        }
+    </script>    
+</body>
+</html>
