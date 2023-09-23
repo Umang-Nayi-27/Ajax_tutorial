@@ -1,0 +1,34 @@
+Methods:
+
+1. open(method, url, async, user, password): Initializes the request, specifying the HTTP method (GET, POST, etc.), URL, and whether the request should be asynchronous or not. The user and password parameters are optional and used for authentication.
+
+2. setRequestHeader(header, value): provide additional information about the request being sent to a web server. , some time for authentication , content-specify mate
+
+3. send(data): Sends the request to the server.
+
+4. abort(): Aborts the current request.
+
+5. getAllResponseHeaders(): Returns all the response headers as a string.
+
+6. getResponseHeader(header): Returns the value of a specific response header.
+
+
+
+properties ::
+
+1. readyState: Represents the state of the request. It has numeric values from 0 to 4, indicating different stages of the request lifecycle (0: uninitialized, 1: opened, 2: headers received, 3: loading, 4: done).
+
+2. status: Represents the HTTP status code returned by the server (e.g., 200 for OK, 404 for Not Found).
+
+3. statusText: Represents the HTTP status message (e.g., "OK" for status code 200).
+
+4. response: Holds the response data as text, JSON, XML, or other formats depending on the responseType property.
+
+5. responseText: Returns the response data as a string.
+
+6. responseType: Specifies the expected type of the response data (e.g., "text", "json", "arraybuffer", "blob", etc.).
+
+7. timeout: Sets or gets the request timeout in milliseconds.
+
+8. withCredentials: A Boolean that indicates whether cross-origin requests should include credentials (e.g., cookies or HTTP authentication).
+
