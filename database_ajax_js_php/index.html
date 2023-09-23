@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Update</title>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+</head>
+<body>
+    <button id="loadDataBtn">Load Data</button>
+    <div id="dataContainer"></div>
+
+    <div id="profupd" style="height: 50vh; width: 20vw; z-index: 999; position: absolute; top: 20%; left: 71%; z-index: 5; padding: 10px; display: none">
+        <button type="button" class="btn btn-primary" id="closeupd">X</button>
+        <div class="container mt-4" id="prcard">
+            <div style="display: flex; flex-direction: row; align-items: center;">
+                <div style="flex: 1; display: flex; padding: 20px 20px; flex-direction: row; align-items: center;">
+                    <div class="form-group">
+                        <h4 style="color: crimson; font-weight: bolder; text-align: center">Update Profile</h4>
+                        <br>
+                        <label for="fullname" class="detail" style="color: #777;">Full Name:</label><br>
+                        <input type="text" id="fullname" placeholder="Update Full Name" style="width: 100%;">
+                    </div>
+                    <div class="text-center">
+                        <br>
+                        <button type="button" id="updpr" class="btn btn-primary">Update Profile</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var loadDataBtn = document.getElementById("loadDataBtn");
+            var dataContainer = document.getElementById("dataContainer");
+            var fullnameInput = document.getElementById("fullname");
+            var updateProfileBtn = document.getElementById("updpr");
+
+            loadDataBtn.addEventListener("click", function() {
+                // Simulate loading data from the server (replace with your own logic)
+                dataContainer.innerHTML = "User's Full Name: John Doe";
+                document.getElementById("profupd").style.display = "block";
+            });
+
+            updateProfileBtn.addEventListener("click", function() {
+                var fullname = fullnameInput.value;
+
+                // Send an AJAX request to update the profile
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", "update_profile.php", true);
+                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+                xhr.onload = function() {
+                    if (xhr.status === 200) {
+                        var response = JSON.parse(xhr.responseText);
+                        if (response.success) {
+                            swal('Success!', 'Profile Updated successfully!', 'success').then(function() {
+                                window.location.reload(); // Reload the page
+                            });
+                        } else {
+                            swal('Error!', response.message, 'error');
+                        }
+                    } else {
+                        swal('Error!', 'An error occurred.', 'error');
+                    }
+                };
+
+                xhr.send("fullname=" + encodeURIComponent(fullname));
+            });
+
+            // Close the profile update form
+            var closeupd = document.getElementById("closeupd");
+            closeupd.addEventListener("click", function() {
+                document.getElementById("profupd").style.display = "none";
+            });
+        });
+    </script>
+</body>
+</html>
