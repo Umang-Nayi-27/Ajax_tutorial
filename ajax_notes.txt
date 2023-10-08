@@ -10,7 +10,7 @@ Methods:
 
 5. getAllResponseHeaders(): Returns all the response headers as a string.
 
-6. getResponseHeader(header): Returns the value of a specific response header.
+6. getResponseHeader(header) : Returns the value of a specific response header.
 
 
 
